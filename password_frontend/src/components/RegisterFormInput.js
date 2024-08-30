@@ -108,7 +108,7 @@ const RegisterFormInput = () => {
                         </button>
                     </div>
                 
-                    <div className='text-center p-t-136'>
+                    <div className='text-center p-t-12'>
                     <a className='txt2' href='/loginForm'>
                     Back To Login
                     <FontAwesomeIcon icon={faArrowRight} className='m-l-5'></FontAwesomeIcon>

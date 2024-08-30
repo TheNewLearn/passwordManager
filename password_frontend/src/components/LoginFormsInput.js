@@ -2,6 +2,7 @@ import { faArrowRight, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import SweetAlertComponents from './SweetAlertComponents';
 const LoginFormsInput = () => {
     const navigate = useNavigate();
     const [formData,setFormData] = useState({
@@ -28,10 +29,26 @@ const LoginFormsInput = () => {
         }).then(res => res.json())
         .then(resp => {
             if(resp.statusCode === 200 && resp.data != null){
-                localStorage.setItem("jwtToken",resp.data);
-                navigate("/");
+                SweetAlertComponents({
+                    title:"登入成功",
+                    icon:"success",
+                    showConfirmButton: false,
+                    timer: 2000, 
+                    callback: () => {
+                        localStorage.setItem("jwtToken",resp.data);
+                        navigate("/");
+                    } 
+                });
             }else{
-                navigate("/loginForms");
+                SweetAlertComponents({
+                    title:"登入失敗",
+                    icon:"error",
+                    showConfirmButton: false,
+                    timer: 2000, 
+                    callback: () => {
+                        navigate("/loginForms");
+                    } 
+                });
             }
         })
      } 
@@ -71,7 +88,7 @@ const LoginFormsInput = () => {
                         <span className='txt1'>Forgot </span>
                         <a className='txt2' href='/'>Username / Password?</a>
                     </div>
-                    <div className='text-center p-t-136'>
+                    <div className='text-center p-t-12'>
                     <a className='txt2' href='/registerForm'>
                     Create your Account
                     <FontAwesomeIcon icon={faArrowRight} className='m-l-5'></FontAwesomeIcon>
