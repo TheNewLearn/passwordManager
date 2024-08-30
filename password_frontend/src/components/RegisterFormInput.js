@@ -1,8 +1,10 @@
 import { faArrowRight, faKey, faLock, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
+import SweetAlertComponents from './SweetAlertComponents';
 const RegisterFormInput = () => {
+    const navigate = useNavigate();
     const [formData,setFormData] = useState({
         username: '',
         password: '',
@@ -23,7 +25,7 @@ const RegisterFormInput = () => {
       const handleRegister = (e) => {
         e.preventDefault();
         console.log(formData);
-        fetch("/api/user/register",{
+        fetch("/api/user/auth/register",{
             method:"POST",
             headers: {
                 "Content-Type": "application/json" // 設置 Content-Type 為 application/json
@@ -31,7 +33,23 @@ const RegisterFormInput = () => {
             body:JSON.stringify(formData)
         }).then(res => res.json())
         .then(response => {
-            console.log(response);
+            if(response.statusCode == 200){
+            SweetAlertComponents({
+                title: "注册成功", 
+                icon: "success",  
+                showConfirmButton: false,
+                timer: 2000, 
+                callback: () => navigate("/loginForm")
+            })
+        }else{
+            SweetAlertComponents({
+                title: "注册失敗", 
+                icon: "error",  
+                showConfirmButton: false,
+                timer: 2000, 
+            });
+        }
+
         })
         
       };

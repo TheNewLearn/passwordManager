@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import App from './App';
-import AuthForms from './page/AuthForm';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
+import Routes from './Route/Routes';
 
 import reportWebVitals from './reportWebVitals';
+
+const AppRoutes = () => {
+  return useRoutes(Routes); // 使用路由配置
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App/>} />
-      <Route path="/loginForm" element={<AuthForms mode='login'/>} />
-      <Route path='/registerForm' element={<AuthForms mode='register'/>} />
-    </Routes>
+    <AppRoutes />
   </BrowserRouter>
 );
 
