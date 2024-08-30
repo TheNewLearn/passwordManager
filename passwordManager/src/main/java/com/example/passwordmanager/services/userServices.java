@@ -32,11 +32,4 @@ public class userServices {
         }
     }
 
-    public Boolean validate(String username, String password){
-        User user = userDao.findUsersByUsername(username);
-        if(user != null){
-            return passwordEncoderUtils.validHash(password,user.getPasswordHash());
-        }
-        return false;
-    }
 }
