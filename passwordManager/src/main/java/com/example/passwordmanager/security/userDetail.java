@@ -30,4 +30,5 @@ public class userDetail implements UserDetails {
     public String getUserMasterKey(){
         return user.getMasterKeyHash();
     }
+
 }

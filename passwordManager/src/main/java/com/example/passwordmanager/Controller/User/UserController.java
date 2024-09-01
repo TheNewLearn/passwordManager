@@ -7,6 +7,7 @@ import com.example.passwordmanager.security.JwtServices;
 import com.example.passwordmanager.security.userDetail;
 import com.example.passwordmanager.services.userServices;
 import com.example.passwordmanager.utils.ApiResponse;
+import com.example.passwordmanager.utils.ShamirSecretSharingUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Tag(name = "test")
 @RestController
 @RequestMapping("/api/user/auth")
@@ -30,6 +35,8 @@ public class UserController {
     private userServices  userServices;
     @Autowired
     private JwtServices jwtServices;
+    @Autowired
+    ShamirSecretSharingUtil secretSharingUtil;
 
     @Operation(summary = "测试")
     @PostMapping("/register")
@@ -56,8 +63,12 @@ public class UserController {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword());
             authToken.setDetails(dto.getMasterKey());
             Authentication authentication = authenticationManager.authenticate(authToken);
-            String jwtToken = jwtServices.generateToken(authentication);
-            return new ApiResponse<>(200,"Success","login success",jwtToken);
+            List<String> secretSplit = secretSharingUtil.splitSecret(dto.getMasterKey());
+            String jwtToken = jwtServices.generateToken(authentication,secretSplit.get(1));
+            Map<String,String> respData = new HashMap<>();
+            respData.put("jwtToken",jwtToken);
+            respData.put("s1",secretSplit.get(0));
+            return new ApiResponse<>(200,"Success","login success",respData);
         }catch (UsernameNotFoundException usernameNotFoundException){
             return new ApiResponse<>(403, "Error", usernameNotFoundException.getMessage(),null);
         }

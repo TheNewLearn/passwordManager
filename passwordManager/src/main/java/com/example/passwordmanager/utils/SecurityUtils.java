@@ -14,4 +14,8 @@ public class SecurityUtils {
         }
         return null;
     }
+
+    public static String getDetails(){
+        return (String) SecurityContextHolder.getContext().getAuthentication().getDetails();
+    }
 }

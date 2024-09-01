@@ -1,9 +1,11 @@
 package com.example.passwordmanager.security;
 
+import com.example.passwordmanager.utils.ShamirSecretSharingUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,11 @@ public class JwtServices {
     @Value("${jwt.secret.key}")
     private String jwtSecret_key;
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication, String sharedSecret){
         userDetail userDetail = (userDetail) authentication.getPrincipal();
-        return generateToken(new HashMap<>(),userDetail);
+        Map<String, Object> claimsMap = new HashMap<>();
+        claimsMap.put("s2",sharedSecret);
+        return generateToken(claimsMap,userDetail);
     }
 
     private String generateToken(Map<String, Object> extractClaims,userDetail userDetail){
