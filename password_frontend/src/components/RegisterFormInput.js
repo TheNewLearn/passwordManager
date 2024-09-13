@@ -33,7 +33,7 @@ const RegisterFormInput = () => {
             body:JSON.stringify(formData)
         }).then(res => res.json())
         .then(response => {
-            if(response.statusCode == 200){
+            if(response.statusCode === 200){
             SweetAlertComponents({
                 title: "注册成功", 
                 icon: "success",  

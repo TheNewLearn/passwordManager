@@ -7,7 +7,7 @@ const AuthForms = ({mode}) => {
         <div className='container-login100'>
             <div className='wrap-login100'>
                 <div className='login100-pic js-tilt loginform'>
-                    <img src="logo192.png" />
+                    <img alt='logo' src="logo192.png" />
                 </div>
                 {mode === 'login' ? (<LoginFormsInput/>) : (<RegisterFormInput/>)}
             </div>

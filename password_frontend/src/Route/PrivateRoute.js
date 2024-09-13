@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from "react-router-dom";
 
 const isAuthenticated = () => {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
     return !!token;
 }
 

@@ -35,7 +35,8 @@ const LoginFormsInput = () => {
                     showConfirmButton: false,
                     timer: 2000, 
                     callback: () => {
-                        localStorage.setItem("jwtToken",resp.data);
+                        sessionStorage.setItem("jwtToken",resp.data.jwtToken);
+                        sessionStorage.setItem("k1",resp.data.s1);
                         navigate("/");
                     } 
                 });
