@@ -38,7 +38,7 @@ public class UserController {
     @Autowired
     ShamirSecretSharingUtil secretSharingUtil;
 
-    @Operation(summary = "测试")
+    @Operation(summary = "Register")
     @PostMapping("/register")
     public ApiResponse register(@RequestBody userDto userdto){
         try{
@@ -56,7 +56,7 @@ public class UserController {
             return new ApiResponse<>(500, "Error", "An unexpected error occurred: " + e.getMessage(),null);
         }
     }
-    @Operation(summary = "测试2")
+    @Operation(summary = "Login")
     @PostMapping("/login")
     public ApiResponse login(@RequestBody userDto dto){
         try{
@@ -80,16 +80,5 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "test3")
-    @SecurityRequirement(name = "Authorization")
-    @GetMapping("/key")
-    public ApiResponse fetchMasterKey(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
-            userDetail detail = (userDetail) authentication.getPrincipal();
-           return new ApiResponse<>(200,"success","key success",detail.getUserMasterKey());
-        }
-        return new ApiResponse<>(403,"fail","key fail",null);
-    }
 
 }
